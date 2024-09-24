@@ -16,8 +16,8 @@ def main(config: EasyDict):
 
     logger.info(f'Exported {len(md_paths)} markdown files')
 
-    # transform markdown to chirpy format
     for md_path in md_paths:
+        # transform markdown to chirpy format
         output = processing_markdown(md_path)
 
         logger.info(f'Processed {md_path} to {output["title"]}')
@@ -28,8 +28,6 @@ def main(config: EasyDict):
         with open(save_fp, 'w') as f:
             f.write(content)
         logger.info(f'Saved {title}')
-
-
 
 
 if __name__ == '__main__':

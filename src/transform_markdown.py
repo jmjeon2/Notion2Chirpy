@@ -38,9 +38,6 @@ def processing_markdown(input_md_fp: str) -> dict:
     # add content below front matter
     final_md = f'{front_matter_md}{content}'
 
-    logger.info("Final Markdown")
-    logger.info(final_md)
-
     # set output file path
     date = front_matter['date'].split(' ')[0]  # 2024-09-21 00:00:00 +0900 -> 2024-09-21
     title = ''.join(e for e in front_matter['title'] if e.isalnum() or e == ' ').replace(' ',
@@ -114,8 +111,8 @@ def dict_to_md(front_matter: dict) -> str:
 
 if __name__ == '__main__':
     input_md_fp = './sample/input/Notion2GithubPages 10a48a6e55fc804a894ce097d6b7c445.md'
-    output_dir = '../sample/output/'
-    processing_markdown(input_md_fp, output_dir)
+    md = processing_markdown(input_md_fp)
+    print(md['content'])
 
     # 예시 markdown 파일
     """
