@@ -1,6 +1,7 @@
 import os
 import zipfile
 from glob import glob
+from shutil import rmtree
 
 import yaml
 from easydict import EasyDict
@@ -77,3 +78,16 @@ def find_all_files(directory: str, extension: str) -> list[str]:
         raise ValueError(f'[Error] 다운로드가 실패하였습니다. 경로를 다시 확인해주세요. Download Folder:[{directory}]')
 
     return pages
+
+
+def delete_file(filepath):
+    if not os.path.exists(filepath):
+        raise ValueError(f'[Error] 삭제할 파일이 존재하지 않습니다. [{filepath}]')
+
+    # Export~/~.html 이미지를 포함한 폴더인 경우
+    if 'Export' in filepath:
+        dir_path = os.path.dirname(filepath)
+        rmtree(dir_path)
+    # ~.html 단일 파일인 경우
+    else:
+        os.remove(filepath)

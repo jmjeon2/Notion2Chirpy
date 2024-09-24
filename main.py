@@ -5,7 +5,7 @@ from easydict import EasyDict
 from src.loggers import get_logger
 from src.notion_download import export_notion_data
 from src.transform_markdown import processing_markdown
-from src.utils import read_yaml
+from src.utils import read_yaml, delete_file
 
 logger = get_logger(logger_name='notion2md')
 
@@ -28,6 +28,9 @@ def main(config: EasyDict):
         with open(save_fp, 'w') as f:
             f.write(content)
         logger.info(f'Saved markdown file in {save_fp}')
+
+        # delete exported md file
+        delete_file(md_path)
 
 
 if __name__ == '__main__':

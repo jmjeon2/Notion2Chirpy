@@ -113,7 +113,7 @@ class NotionAPI:
     def _prop_dict_to_notion(d: dict):
         """
         Convert a dict to notion property format.
-        Every value are converted to string.
+        Every value are converted to string. (plain text 컬럼에서만 동작함)
 
         Args:
             d: e.g. {"컬럼명": "내용", ...}
@@ -156,6 +156,9 @@ if __name__ == '__main__':
 
     # page name 찾기
     print(pages['results'][0]['properties']['name']['title'][0]['plain_text'])
+
+    # update column
+    client.update(page_id='10a48a6e-55fc-804a-894c-e097d6b7c445', properties={'title': 'Notion2GithubPages22'})
 
     # get_pages() 결과 예시
     """
