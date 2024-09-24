@@ -64,7 +64,7 @@ def transform_front_matter(input_md_fp):
 
     # processing front matter
     essential_keys = ['title', 'description', 'date', 'categories', 'tags']
-    fixed_matter = {'author': 'jmjeon'}  # , 'pin': 'false', 'math': 'false', 'mermaid': 'false'}
+    fixed_matter = {}  # 'author': 'jmjeon', 'pin': 'false', 'math': 'false', 'mermaid': 'false'} # author 미지정시 _config.yaml 기본 값으로 사용함
     all_keys = ['title', 'description', 'date', 'categories', 'tags', 'author', 'pin', 'math', 'mermaid']
 
     # remove unnecessary keys
