@@ -2,14 +2,14 @@ from easydict import EasyDict
 
 from src.notion_sdk.notion_api import NotionAPI
 from src.notion_sdk.notion_exporter import NotionBackUpClient
-from utils import read_yaml, unzip_all, find_all_files
+from src.utils import read_yaml, unzip_all, find_all_files
 
-from loggers import get_logger
+from src.loggers import get_logger
 
-logger = get_logger(log_file='notion2md.log', logger_name='notion2md')
+logger = get_logger(logger_name='notion2md')
 
 
-def export_notion_data(config: EasyDict):
+def export_notion_data(config: EasyDict) -> list:
     # notion client
     notion = NotionAPI(api_key=config.NOTION.API_KEY)
 
@@ -51,6 +51,7 @@ def export_notion_data(config: EasyDict):
     md_files = find_all_files(config.NOTION.DOWNLOAD_PATH, extension='md')
 
     logger.info(f'Exported {len(md_files)} markdown files')
+    return md_files
 
 
 if __name__ == '__main__':

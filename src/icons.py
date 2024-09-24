@@ -1,7 +1,7 @@
 import re
 
 
-def transform_markdown(md_text):
+def transform_callout(md_text):
     """
         notion의 callout 블록은 markdown 출력시 <aside>로 변환됨
         따라서 <aside> 태그를 찾아서 이모지를 제거하고 chirpy의 prompt-tip으로 출력하도록 변환

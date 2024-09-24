@@ -1,44 +1,56 @@
-from pathlib import Path
-from pprint import pprint
+from src.dt import convert_date_format
+from src.icons import transform_callout
+from src.loggers import get_logger
+from src.replace_image import replace_image_urls
 
-from dt import convert_date_format
-from icons import transform_markdown
-from loggers import get_logger
-
-logger = get_logger('notion2md', 'notion2md.log')
+logger = get_logger(logger_name='notion2md')
 
 
-def processing_markdown(input_md_fp: str, output_dir: str) -> str:
+def processing_markdown(input_md_fp: str) -> dict:
     """
+    1. Read markdown file
+    2. Transform front matter (notion의 컬럼 정보를 front matter로 변환)
+    3. Transform markdown content (notion의 markdown 내용 중 chirpy에 맞게 변환)
+        - image를 imgur 링크로 변환
+        - callout <aside>를 info prompt로 변경
+    4. Write markdown file (파일명: 날짜-제목.md)
+
     Args:
         input_md_fp: markdown file path
         output_dir: output directory path
     """
-    # read markdown file
+
+    """ front matter processing """
     front_matter, content = transform_front_matter(input_md_fp)
 
-    print("Markdown Front Matter")
     front_matter_md = dict_to_md(front_matter)
-    print(front_matter_md)
+    logger.info("Markdown Front Matter")
+    logger.info(front_matter_md)
 
     """ content processing """
-    content = transform_markdown(content)
+
+    # transform callout
+    content = transform_callout(content)
+
+    # transform image
+    # content = replace_image_urls(content, config.IMGUR.CLIENT_ID)
 
     # add content below front matter
     final_md = f'{front_matter_md}{content}'
 
-    print("Final Markdown")
-    print(final_md)
+    logger.info("Final Markdown")
+    logger.info(final_md)
 
     # set output file path
     date = front_matter['date'].split(' ')[0]  # 2024-09-21 00:00:00 +0900 -> 2024-09-21
     title = ''.join(e for e in front_matter['title'] if e.isalnum() or e == ' ').replace(' ',
                                                                                          '-')  # get title english & number only and replace space to '-'
-    output_fp = Path(output_dir) / f'{date}-{title}.md'
+    output_title = f'{date}-{title}.md'
 
-    # write markdown file
-    with open(output_fp, 'w') as f:
-        f.write(final_md)
+    return dict(
+        title=output_title,
+        content=final_md
+    )
 
 
 def transform_front_matter(input_md_fp):
@@ -55,8 +67,6 @@ def transform_front_matter(input_md_fp):
     front_matter = front_matter.split('\n')
     front_matter = [x.split(': ') for x in front_matter]
     front_matter = dict(front_matter)
-    print("DEBUG1")
-    print(front_matter)
 
     # processing front matter
     essential_keys = ['title', 'description', 'date', 'categories', 'tags']
@@ -81,8 +91,6 @@ def transform_front_matter(input_md_fp):
 
     # apply date format (2024년 9월 21일 오전 12:00 (GMT+9) -> 2024-09-21 00:00:00 +0900)
     front_matter['date'] = convert_date_format(front_matter['date'])
-    print("Dict Front Matter")
-    pprint(front_matter)
 
     # convert title to "title" (제목에 기호가 들어가면 오류 발생)
     front_matter['title'] = f"\"{front_matter['title']}\""
@@ -90,8 +98,6 @@ def transform_front_matter(input_md_fp):
     # convert A, B, C -> [A, B, C]
     front_matter['categories'] = front_matter['categories'].split(', ')
     front_matter['tags'] = front_matter['tags'].split(', ')
-    print("Final Front Matter")
-    print(front_matter)
 
     return front_matter, content
 

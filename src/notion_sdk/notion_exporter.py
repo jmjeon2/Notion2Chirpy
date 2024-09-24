@@ -5,8 +5,6 @@ from time import sleep
 from pathlib import Path
 import os
 
-from src.utils import read_yaml
-
 NOTION_API_ROOT = "https://www.notion.so/api/v3"
 BLOCK_SIZE = 1024  # download 1KB
 
@@ -103,6 +101,8 @@ class NotionBackUpClient:
 
 
 if __name__ == '__main__':
+    from src.utils import read_yaml
+
     config = read_yaml('../../config.yaml')
 
     # export & download
