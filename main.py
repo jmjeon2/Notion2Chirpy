@@ -20,14 +20,14 @@ def main(config: EasyDict):
         # transform markdown to chirpy format
         output = processing_markdown(md_path)
 
-        logger.info(f'Processed {md_path} to {output["title"]}')
+        logger.info(f'Markdown Processed {md_path} to {output["title"]}')
 
         # save md file
         title, content = output['title'], output['content']
         save_fp = Path(config.GITHUB_PAGES.POST_PATH) / title
         with open(save_fp, 'w') as f:
             f.write(content)
-        logger.info(f'Saved {title}')
+        logger.info(f'Saved markdown file in {save_fp}')
 
 
 if __name__ == '__main__':

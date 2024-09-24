@@ -22,10 +22,7 @@ def processing_markdown(input_md_fp: str) -> dict:
 
     """ front matter processing """
     front_matter, content = transform_front_matter(input_md_fp)
-
     front_matter_md = dict_to_md(front_matter)
-    logger.info("Markdown Front Matter")
-    logger.info(front_matter_md)
 
     """ content processing """
 

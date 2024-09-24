@@ -36,7 +36,6 @@ def unzip_all(directory: str, remove_zip=False):
 
     # zip 파일로 다운로드 한 경우 압축해제
     pages_zip = glob(get_dir(os.path.join(directory, 'Export*.zip')))
-    print(pages_zip)
 
     dst_folders = []
     for zip_fp in pages_zip:
