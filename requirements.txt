@@ -1,0 +1,6 @@
+requests
+tqdm
+notion-client
+pyyaml
+easydict
+notion
