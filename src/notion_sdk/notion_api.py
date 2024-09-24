@@ -154,6 +154,9 @@ if __name__ == '__main__':
     pages_id = client.parse_id_by_pages(pages)
     print(pages_id)
 
+    # page name 찾기
+    print(pages['results'][0]['properties']['name']['title'][0]['plain_text'])
+
     # get_pages() 결과 예시
     """
     
