@@ -5,14 +5,14 @@ from time import sleep
 from pathlib import Path
 import os
 
-from utils import read_yaml
+from src.utils import read_yaml
 
 NOTION_API_ROOT = "https://www.notion.so/api/v3"
 BLOCK_SIZE = 1024  # download 1KB
 
 
 class NotionBackUpClient:
-    def __init__(self, token, download_path='~/n2t'):
+    def __init__(self, token, download_path='~/.notion2md'):
         self.token = token
         self.space_id = NotionClient(token).current_space.id
         self.download_path = Path(download_path)
@@ -103,7 +103,7 @@ class NotionBackUpClient:
 
 
 if __name__ == '__main__':
-    config = read_yaml('../config.yaml')
+    config = read_yaml('../../config.yaml')
 
     # export & download
     ne = NotionBackUpClient(token=config.NOTION_API_TOKEN_V2, download_path='~/.n2t')
