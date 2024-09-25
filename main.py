@@ -4,7 +4,7 @@ from easydict import EasyDict
 
 from src.loggers import get_logger
 from src.notion_sdk.notion_download import export_notion_data
-from src.replace_image import replace_image_urls
+from src.replace_image import replace_image_urls_v2
 from src.transform_markdown import processing_markdown
 from src.utils import read_yaml, delete_file
 
@@ -24,7 +24,7 @@ def main(config: EasyDict):
 
         # transform image url
         md_parent_path = Path(md_path).parent
-        content = replace_image_urls(content, md_parent_path, config.IMGUR.CLIENT_ID)
+        content = replace_image_urls_v2(content, md_parent_path, config.IMGUR.CLIENT_ID)
 
         logger.info(f'Markdown Processed {md_path} to {output["title"]}')
 
@@ -36,6 +36,7 @@ def main(config: EasyDict):
 
         # delete exported md file
         delete_file(md_path)
+        logger.info(f'Deleted exported markdown file in {md_path}')
 
 
 if __name__ == '__main__':
