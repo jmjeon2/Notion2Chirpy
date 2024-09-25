@@ -63,10 +63,9 @@ class NotionAPI:
         Update a page.
         Args:
             page_id: page id to update
-            properties: properties to update
-                e.g. {"컬럼명": "내용"}
+            properties: properties to update (API 참고: https://developers.notion.com/reference/patch-page)
+                e.g. checkbox의 경우: {"컬럼명": {"checkbox": True}}
         """
-        properties = self._prop_dict_to_notion(properties)
 
         return self.client.pages.update(
             **{
@@ -157,8 +156,11 @@ if __name__ == '__main__':
     # page name 찾기
     print(pages['results'][0]['properties']['name']['title'][0]['plain_text'])
 
-    # update column
-    client.update(page_id='10a48a6e-55fc-804a-894c-e097d6b7c445', properties={'title': 'Notion2GithubPages22'})
+    # update url column
+    client.update(page_id=pages_id[0], properties={"url": {"url": "test.com"}})
+
+    # update status column
+    client.update(page_id=pages_id[0], properties={"status": {"select": {"name": "Test 완료"}}})
 
     # get_pages() 결과 예시
     """
