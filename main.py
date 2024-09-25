@@ -38,6 +38,8 @@ def main(config: EasyDict):
         delete_file(md_path)
         logger.info(f'Deleted exported markdown file in {md_path}')
 
+    logger.info('All process done!')
+
 
 if __name__ == '__main__':
     config = read_yaml('./config.yaml')
