@@ -29,9 +29,6 @@ def processing_markdown(input_md_fp: str) -> dict:
     # transform callout
     content = transform_callout(content)
 
-    # transform image
-    # content = replace_image_urls(content, config.IMGUR.CLIENT_ID)
-
     # add content below front matter
     final_md = f'{front_matter_md}{content}'
 
