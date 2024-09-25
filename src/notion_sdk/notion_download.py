@@ -4,7 +4,7 @@ from easydict import EasyDict
 
 from src.notion_sdk.notion_api import NotionAPI
 from src.notion_sdk.notion_exporter import NotionBackUpClient
-from src.utils import read_yaml, unzip_all, find_all_files, get_dir
+from src.utils import read_yaml, unzip_all, find_all_files, expanduser
 
 from src.loggers import get_logger
 
@@ -23,7 +23,7 @@ def export_notion_data(config: EasyDict) -> list:
                                      "equals": config.NOTION.COLUMN.STATUS.POSTING
                                  }
                              },
-                             page_size=3)  # TODO: page_size를 3으로 설정하여 테스트 중입니다. 실제 사용시에는 적절한 값을 설정할 것
+                             page_size=2)  # TODO: page_size를 3으로 설정하여 테스트. 실제 사용시에는 적절한 값을 설정할 것
 
     # TODO pages의 컬럼을 확인하여 필수 컬럼이 있는지 확인하고 없으면 에러를 발생시키도록 구현
     # TODO 필수 컬럼: name, title, date, categories
@@ -49,10 +49,11 @@ def export_notion_data(config: EasyDict) -> list:
                                          download_path=config.NOTION.DOWNLOAD_PATH)
 
     # check if there are files in download path
-    exist_file_list = os.listdir(get_dir(config.NOTION.DOWNLOAD_PATH))
+    exist_file_list = os.listdir(expanduser(config.NOTION.DOWNLOAD_PATH))
     if '.DS_Store' in exist_file_list:
         exist_file_list.remove('.DS_Store')
     if len(exist_file_list) > 0:
+        logger.warning(f'Files already exist in {config.NOTION.DOWNLOAD_PATH}. Please remove them before exporting')
         raise ValueError(f'Files already exist in {config.NOTION.DOWNLOAD_PATH}. Please remove them before exporting')
 
     # export notion data

@@ -1,4 +1,5 @@
 import os
+import urllib.parse
 import zipfile
 from glob import glob
 from shutil import rmtree
@@ -19,7 +20,7 @@ def read_yaml(file_path) -> EasyDict:
     return data
 
 
-def get_dir(path):
+def expanduser(path):
     """경로에 ~가 붙으면 expanduser 처리"""
     if path.startswith('~'):
         return os.path.expanduser(path)
@@ -36,13 +37,13 @@ def unzip_all(directory: str, remove_zip=False):
     """
 
     # zip 파일로 다운로드 한 경우 압축해제
-    pages_zip = glob(get_dir(os.path.join(directory, 'Export*.zip')))
+    pages_zip = glob(expanduser(os.path.join(directory, 'Export*.zip')))
 
     dst_folders = []
     for zip_fp in pages_zip:
         zip = zipfile.ZipFile(zip_fp)
         # 압축할 폴더 생성
-        zip_folder = get_dir(zip_fp.replace('.zip', ''))
+        zip_folder = expanduser(zip_fp.replace('.zip', ''))
         os.makedirs(zip_folder, exist_ok=True)
         # 압축 풀기
         zip.extractall(zip_folder)
@@ -67,9 +68,9 @@ def find_all_files(directory: str, extension: str) -> list[str]:
     """
 
     # 단일 html 파일
-    pages_single = glob(get_dir(os.path.join(directory, f'*.{extension}')))
+    pages_single = glob(expanduser(os.path.join(directory, f'*.{extension}')))
     # 이미지를 포함하여 폴더 형태의 html 파일
-    pages_including_image = glob(get_dir(os.path.join(directory, f'Export*', f'*.{extension}')))
+    pages_including_image = glob(expanduser(os.path.join(directory, f'Export*', f'*.{extension}')))
 
     pages = pages_single + pages_including_image
 
@@ -91,3 +92,11 @@ def delete_file(filepath):
     # ~.html 단일 파일인 경우
     else:
         os.remove(filepath)
+
+
+def encode_url(url):
+    return urllib.parse.quote(url)
+
+
+def decode_url(encoded_url):
+    return urllib.parse.unquote(encoded_url)
