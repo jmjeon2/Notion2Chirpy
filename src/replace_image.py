@@ -72,14 +72,14 @@ def replace_image_urls_v2(markdown_text: str, data_dir: str, imgur_client_id: st
         if line.strip().startswith('!['):
             # get image path from line (starts with "](" and ends with ".jpg)" or ".png)")
             start_idx = line.find('](') + 2
-            img_path = line[start_idx:-1]  # remove ')'
-            img_path = decode_url(img_path)
+            img_rel_path_md = line[start_idx:-1]  # remove ')', url encoded markdown text
+            img_rel_path = decode_url(img_rel_path_md)  # decoded path
 
             # replace image url using imgur
-            img_path = os.path.join(data_dir, img_path)
+            img_path = os.path.join(data_dir, img_rel_path)
             img_path = _validate_image_format(img_path)
             new_url = upload_image(img_path, imgur_client_id)
-            line = line.replace(img_path, new_url)
+            line = line.replace(img_rel_path_md, new_url)
 
             # sleep for 0.5 sec to avoid rate limit
             time.sleep(0.5)
