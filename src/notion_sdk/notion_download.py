@@ -23,7 +23,7 @@ def export_notion_data(config: EasyDict) -> list:
                                      "equals": config.NOTION.COLUMN.STATUS.POSTING
                                  }
                              },
-                             page_size=2)  # TODO: page_size를 3으로 설정하여 테스트. 실제 사용시에는 적절한 값을 설정할 것
+                             page_size=config.NOTION.MAX_PAGE_SIZE)
 
     # TODO pages의 컬럼을 확인하여 필수 컬럼이 있는지 확인하고 없으면 에러를 발생시키도록 구현
     # TODO 필수 컬럼: name, title, date, categories
