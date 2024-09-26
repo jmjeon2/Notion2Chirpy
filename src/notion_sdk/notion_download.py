@@ -27,10 +27,12 @@ def get_posting_pages(config: EasyDict) -> [PageInfo]:
                              page_size=config.NOTION.MAX_PAGE_SIZE)
 
     main_column = config.NOTION.COLUMN.MAIN.NAME
+    uid_column = config.NOTION.COLUMN.UID.NAME
 
     pages = [
         PageInfo(name=page['properties'][main_column]['title'][0]['plain_text'],
-                 id=page['id'])
+                 id=page['id'],
+                 uid=page['properties'][uid_column]['unique_id']['number'])
         for page in pages['results']
     ]
 

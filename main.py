@@ -5,6 +5,7 @@ from easydict import EasyDict
 from src.loggers import get_logger
 from src.models import PageInfo
 from src.notion_sdk.notion_download import export_notion_data, get_posting_pages
+from src.notion_sdk.update_notion_db import update_notion_db
 from src.replace_image import replace_image_urls_v2
 from src.transform_markdown import processing_markdown
 from src.utils import read_yaml, delete_file
@@ -62,6 +63,11 @@ def main(config: EasyDict):
             logger.error(f'Error occurred in {page.name}')
             logger.error(e)
             continue
+
+        # update notion db
+        update_notion_db(config, page)
+        logger.info(f'Updated notion db. page name: {page.name}')
+
         logger.info(f'Processed {page.name}')
 
     logger.info('All process done!')
