@@ -1,7 +1,6 @@
 from src.dt import convert_date_format
 from src.icons import transform_callout
 from src.loggers import get_logger
-from src.replace_image import replace_image_urls
 
 logger = get_logger(logger_name='notion2md')
 
@@ -34,9 +33,8 @@ def processing_markdown(input_md_fp: str) -> dict:
 
     # set output file path
     date = front_matter['date'].split(' ')[0]  # 2024-09-21 00:00:00 +0900 -> 2024-09-21
-    title = ''.join(e for e in front_matter['title'] if e.isalnum() or e == ' ').replace(' ',
-                                                                                         '-')  # get title english & number only and replace space to '-'
-    output_title = f'{date}-{title}.md'
+    post_uid = front_matter['uid']
+    output_title = f'{date}-{post_uid}.md'
 
     return dict(
         title=output_title,
@@ -59,10 +57,13 @@ def transform_front_matter(input_md_fp):
     front_matter = [x.split(': ') for x in front_matter]
     front_matter = dict(front_matter)
 
+    # merge category
+    front_matter['categories'] = front_matter['category1'] + ', ' + front_matter['category2']
+
     # processing front matter
-    essential_keys = ['title', 'description', 'date', 'categories', 'tags']
+    essential_keys = ['title', 'date', 'categories', 'tags', 'uid'] # 'description'
     fixed_matter = {}  # 'author': 'jmjeon', 'pin': 'false', 'math': 'false', 'mermaid': 'false'} # author 미지정시 _config.yaml 기본 값으로 사용함
-    all_keys = ['title', 'description', 'date', 'categories', 'tags', 'author', 'pin', 'math', 'mermaid']
+    all_keys = ['title', 'description', 'date', 'categories', 'tags', 'author', 'pin', 'math', 'mermaid', 'uid']
 
     # remove unnecessary keys
     keys = list(front_matter.keys())
@@ -73,6 +74,12 @@ def transform_front_matter(input_md_fp):
     # add fixed matter to front matter
     for key in fixed_matter:
         front_matter[key] = fixed_matter[key]
+
+    # validate essential keys
+    for key in essential_keys:
+        if key not in front_matter:
+            logger.error(f'Essential key not found: {key}')
+            raise KeyError(f'Essential key not found: {key}')
 
     # add math, mermaid if exist
     if '$' in content:
