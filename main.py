@@ -1,6 +1,6 @@
 from pathlib import Path
-
 from easydict import EasyDict
+import traceback
 
 from src.loggers import get_logger
 from src.models import PageInfo
@@ -42,6 +42,7 @@ def process(page: PageInfo):
     except Exception as e:
         logger.error(f'Error occurred in {page.name}')
         logger.error(e)
+        logger.error(traceback.format_exc())
         return
 
     finally:
@@ -62,6 +63,7 @@ def main(config: EasyDict):
         except Exception as e:
             logger.error(f'Error occurred in {page.name}')
             logger.error(e)
+            logger.error(traceback.format_exc())
             continue
 
         # update notion db
