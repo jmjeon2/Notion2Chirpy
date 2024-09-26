@@ -65,6 +65,9 @@ def replace_image_urls(markdown_text: str, data_dir: str, imgur_client_id: str):
 
 
 def replace_image_urls_v2(markdown_text: str, data_dir: str, imgur_client_id: str):
+    """
+    markdown text 내의 이미지 url을 imgur url로 변경
+    """
     content = markdown_text.split('\n')
 
     output_content = []

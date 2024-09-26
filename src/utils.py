@@ -59,9 +59,9 @@ def unzip_all(directory: str, remove_zip=False):
     return dst_folders
 
 
-def find_all_files(directory: str, extension: str) -> list[str]:
+def find_md_file(directory: str, extension: str) -> str:
     """
-    directory 내의 모든 extension 확장자를 가진 파일 경로 반환
+    directory 내의 모든 extension 확장자를 가진 파일 경로 반환 (md 파일이 여러개인 경우 에러 발생)
     Args:
         directory (str): 검색할 디렉토리
         extension (str): 검색할 확장자 (ex. 'md', 'html')
@@ -77,8 +77,10 @@ def find_all_files(directory: str, extension: str) -> list[str]:
     # 파일은 한개여야함
     if len(pages) == 0:
         raise ValueError(f'[Error] 다운로드가 실패하였습니다. 경로를 다시 확인해주세요. Download Folder:[{directory}]')
+    elif len(pages) > 1:
+        raise ValueError(f'[Error] 다운로드된 파일이 여러개입니다. 경로를 다시 확인해주세요. Download Folder:[{directory}]')
 
-    return pages
+    return pages[0]
 
 
 def delete_file(filepath):

@@ -4,9 +4,12 @@ from tqdm import tqdm
 from time import sleep
 from pathlib import Path
 import os
+from src.loggers import get_logger
 
 NOTION_API_ROOT = "https://www.notion.so/api/v3"
 BLOCK_SIZE = 1024  # download 1KB
+
+logger = get_logger(logger_name='notion2md')
 
 
 class NotionBackUpClient:
@@ -97,7 +100,8 @@ class NotionBackUpClient:
         export_link = task_status["status"]["exportURL"]
         save_fp = self.download_path.expanduser() / f'Export-{page_id}.zip'
         self.download_file(export_link, save_fp)
-        print(f'[SUCCESS] Notion Page Export Complete in {save_fp}')
+
+        logger.info(f'Exported {page_id} to {save_fp}')
 
 
 if __name__ == '__main__':

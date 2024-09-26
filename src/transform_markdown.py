@@ -1,18 +1,20 @@
 from src.dt import convert_date_format
 from src.icons import transform_callout
 from src.loggers import get_logger
+from src.models import MDInfo
 
 logger = get_logger(logger_name='notion2md')
 
 
-def processing_markdown(input_md_fp: str) -> dict:
+def processing_markdown(input_md_fp: str) -> MDInfo:
     """
-    1. Read markdown file
-    2. Transform front matter (notion의 컬럼 정보를 front matter로 변환)
-    3. Transform markdown content (notion의 markdown 내용 중 chirpy에 맞게 변환)
-        - image를 imgur 링크로 변환
-        - callout <aside>를 info prompt로 변경
-    4. Write markdown file (파일명: 날짜-제목.md)
+    notion의 markdown file을 chirpy에 맞게 변환하는 함수
+        1. Read markdown file
+        2. Transform front matter (notion의 컬럼 정보를 front matter로 변환)
+        3. Transform markdown content (notion의 markdown 내용 중 chirpy에 맞게 변환)
+            - callout <aside>를 info prompt로 변경
+            - 날짜 포맷 변경
+        4. Write markdown file (파일명: 날짜-제목.md)
 
     Args:
         input_md_fp: markdown file path
@@ -21,10 +23,9 @@ def processing_markdown(input_md_fp: str) -> dict:
 
     """ front matter processing """
     front_matter, content = transform_front_matter(input_md_fp)
-    front_matter_md = dict_to_md(front_matter)
+    front_matter_md = _dict_to_md(front_matter)
 
     """ content processing """
-
     # transform callout
     content = transform_callout(content)
 
@@ -34,21 +35,21 @@ def processing_markdown(input_md_fp: str) -> dict:
     # set output file path
     date = front_matter['date'].split(' ')[0]  # 2024-09-21 00:00:00 +0900 -> 2024-09-21
     post_uid = front_matter['uid']
-    output_title = f'{date}-{post_uid}.md'
+    output_filepath = f'{date}-{post_uid}.md'
 
-    return dict(
-        title=output_title,
-        content=final_md
-    )
+    md = MDInfo(filepath=output_filepath, content=final_md)
+
+    return md
 
 
-def transform_front_matter(input_md_fp):
+def transform_front_matter(input_md_fp) -> (dict, str):
     with open(input_md_fp, 'r') as f:
         md = f.read()
     # delete 1 row title
     md = md.split('\n\n', 2)
 
     # split front matter and content
+    page_name = md[0][2:]  # delete '# ' in title
     front_matter = md[1]
     content = md[2]
 
@@ -61,7 +62,7 @@ def transform_front_matter(input_md_fp):
     front_matter['categories'] = front_matter['category1'] + ', ' + front_matter['category2']
 
     # processing front matter
-    essential_keys = ['title', 'date', 'categories', 'tags', 'uid'] # 'description'
+    essential_keys = ['title', 'date', 'categories', 'tags', 'uid']  # 'description'
     fixed_matter = {}  # 'author': 'jmjeon', 'pin': 'false', 'math': 'false', 'mermaid': 'false'} # author 미지정시 _config.yaml 기본 값으로 사용함
     all_keys = ['title', 'description', 'date', 'categories', 'tags', 'author', 'pin', 'math', 'mermaid', 'uid']
 
@@ -100,7 +101,10 @@ def transform_front_matter(input_md_fp):
     return front_matter, content
 
 
-def dict_to_md(front_matter: dict) -> str:
+def _dict_to_md(front_matter: dict) -> str:
+    """
+    Convert dictionary front matter to markdown format with ---
+    """
     md = '---\n'
     for k, v in front_matter.items():
         if isinstance(v, list):
@@ -111,9 +115,9 @@ def dict_to_md(front_matter: dict) -> str:
 
 
 if __name__ == '__main__':
-    input_md_fp = './sample/input/Notion2GithubPages 10a48a6e55fc804a894ce097d6b7c445.md'
+    input_md_fp = '/Users/jmjeon/Desktop/Project/Personal/039_Notion2Chirpy/test/samples/exported_md/[테스트페이지] pyenv 사용 10d48a6e55fc800a995befe6dfe52b98 2.md'
     md = processing_markdown(input_md_fp)
-    print(md['content'])
+    print(md)
 
     # 예시 markdown 파일
     """
