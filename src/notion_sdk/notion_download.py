@@ -25,10 +25,6 @@ def export_notion_data(config: EasyDict) -> list:
                              },
                              page_size=config.NOTION.MAX_PAGE_SIZE)
 
-    # TODO pages의 컬럼을 확인하여 필수 컬럼이 있는지 확인하고 없으면 에러를 발생시키도록 구현
-    # TODO 필수 컬럼: name, title, date, categories
-    # TODO 완료된 페이지는 삭제 처리
-
     main_column = config.NOTION.COLUMN.MAIN.NAME
     status_column = config.NOTION.COLUMN.STATUS.NAME
     status_target_value = config.NOTION.COLUMN.STATUS.POSTING
