@@ -54,8 +54,8 @@ def main(config: EasyDict):
     pages = get_posting_pages(config)
 
     # export notion data (markdown)
-    for i, page in enumerate(pages):
-        logger.info(f'Start {i}th Processing {page.name}')
+    for i, page in enumerate(pages, start=1):
+        logger.info(f'Start [{i}]th Processing {page.name}')
         try:
             process(page)
         except Exception as e:
