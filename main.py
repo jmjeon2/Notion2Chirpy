@@ -59,15 +59,15 @@ def main(config: EasyDict):
         logger.info(f'Start [{i}]th Processing {page.name}')
         try:
             process(page)
+
+            # update notion db
+            update_notion_db(config, page)
+            logger.info(f'Updated notion db. page name: {page.name}')
         except Exception as e:
             logger.error(f'Error occurred in {page.name}')
             logger.error(e)
             logger.error(traceback.format_exc())
             continue
-
-        # update notion db
-        update_notion_db(config, page)
-        logger.info(f'Updated notion db. page name: {page.name}')
 
         logger.info(f'Processed {page.name}')
 
