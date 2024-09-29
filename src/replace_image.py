@@ -70,6 +70,10 @@ def replace_image_urls_v2(markdown_text: str, data_dir: str, imgur_client_id: st
     """
     content = markdown_text.split('\n')
 
+    # 이미지가 없는 경우 skip
+    if '![' not in ''.join(content):
+        return markdown_text
+
     output_content = []
     for i, line in enumerate(content):
         if line.strip().startswith('!['):

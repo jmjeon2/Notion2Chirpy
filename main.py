@@ -16,7 +16,6 @@ logger = get_logger(logger_name='notion2md')
 def save_md_file(save_fp, content):
     with open(save_fp, 'w') as f:
         f.write(content)
-    logger.info(f'Saved markdown file in {save_fp}')
 
 
 def process(page: PageInfo):
@@ -32,7 +31,7 @@ def process(page: PageInfo):
         # transform image url
         md_parent_path = Path(md_path).parent
         content = replace_image_urls_v2(md.content, md_parent_path, config.IMGUR.CLIENT_ID)
-        logger.info(f'IMGUR Image Processed. page name: {page.name}')
+        logger.info(f'Image Processed(IMGUR). page name: {page.name}')
 
         # save md file
         save_fp = Path(config.GITHUB_PAGES.POST_PATH) / md.filepath
