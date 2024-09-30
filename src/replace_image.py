@@ -77,10 +77,15 @@ def replace_image_urls_v2(markdown_text: str, data_dir: str, imgur_client_id: st
     output_content = []
     for i, line in enumerate(content):
         if line.strip().startswith('!['):
-            # get image path from line (starts with "](" and ends with ".jpg)" or ".png)")
+            # get image path from line (starts with "](" and ends with ".jpg)" or ".png)") e.g. ![title](./images/sample.png)
             start_idx = line.find('](') + 2
             img_rel_path_md = line[start_idx:-1]  # remove ')', url encoded markdown text
             img_rel_path = decode_url(img_rel_path_md)  # decoded path
+
+            # 이미지 파일이 url 형태인 경우 skip
+            if img_rel_path.startswith('http'):
+                output_content.append(line)
+                continue
 
             # replace image url using imgur
             img_path = os.path.join(data_dir, img_rel_path)
