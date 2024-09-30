@@ -14,7 +14,8 @@ def processing_markdown(input_md_fp: str) -> MDInfo:
         3. Transform markdown content (notion의 markdown 내용 중 chirpy에 맞게 변환)
             - callout <aside>를 info prompt로 변경
             - 날짜 포맷 변경
-        4. Write markdown file (파일명: 날짜-제목.md)
+        4. http link를 https로 변경
+        5. Write markdown file (파일명: 날짜-제목.md)
 
     Args:
         input_md_fp: markdown file path
@@ -28,6 +29,9 @@ def processing_markdown(input_md_fp: str) -> MDInfo:
     """ content processing """
     # transform callout
     content = transform_callout(content)
+
+    # replace http to https
+    content = content.replace('http://', 'https://')
 
     # add content below front matter
     final_md = f'{front_matter_md}{content}'
