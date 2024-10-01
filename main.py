@@ -18,7 +18,7 @@ def save_md_file(save_fp, content):
         f.write(content)
 
 
-def process(page: PageInfo):
+def process(page: PageInfo) -> bool:
     # export notion data
     md_path = export_notion_data(config, page)
     logger.info(f'Exported notion data in {md_path}. page name: {page.name}')
@@ -37,12 +37,13 @@ def process(page: PageInfo):
         save_fp = Path(config.GITHUB_PAGES.POST_PATH) / md.filepath
         save_md_file(save_fp, content)
         logger.info(f'Saved markdown file in {save_fp}. page name: {page.name}')
+        return True
 
     except Exception as e:
         logger.error(f'Error occurred in {page.name}')
         logger.error(e)
         logger.error(traceback.format_exc())
-        return
+        return False
 
     finally:
         # delete exported md file
@@ -54,24 +55,36 @@ def main(config: EasyDict):
     # get posting pages
     pages = get_posting_pages(config)
 
+    failed_pages = []
+
     # export notion data (markdown)
     for i, page in enumerate(pages, start=1):
         logger.info(f'Start [{i}]th Processing {page.name}')
         try:
-            process(page)
+            succeed = process(page)
 
             # update notion db
-            update_notion_db(config, page)
-            logger.info(f'Updated notion db. page name: {page.name}')
+            if succeed:
+                update_notion_db(config, page)
+                logger.info(f'Updated notion db. page name: {page.name}')
+            else:
+                failed_pages.append(page.name)
+
         except Exception as e:
             logger.error(f'Error occurred in {page.name}')
             logger.error(e)
             logger.error(traceback.format_exc())
+            failed_pages.append(page.name)
             continue
 
         logger.info(f'Processed {page.name}')
 
     logger.info('All process done!')
+
+    if failed_pages:
+        logger.error(f'Total failed pages: {len(failed_pages)}')
+        for i, page in enumerate(failed_pages, start=1):
+            logger.error(f'[{i}] Failed page: {page}')
 
 
 if __name__ == '__main__':
