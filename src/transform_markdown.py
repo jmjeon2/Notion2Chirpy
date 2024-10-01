@@ -1,7 +1,7 @@
 from src.dt import convert_date_format
 from src.icons import transform_callout
 from src.loggers import get_logger
-from src.models import MDInfo
+from src.models import MDInfo, FrontMatter
 
 logger = get_logger(logger_name='notion2md')
 
@@ -24,7 +24,7 @@ def processing_markdown(input_md_fp: str) -> MDInfo:
 
     """ front matter processing """
     front_matter, content = transform_front_matter(input_md_fp)
-    front_matter_md = _dict_to_md(front_matter)
+    front_matter_md = front_matter.to_md()
 
     """ content processing """
     # transform callout
@@ -34,11 +34,11 @@ def processing_markdown(input_md_fp: str) -> MDInfo:
     content = content.replace('http://', 'https://')
 
     # add content below front matter
-    final_md = f'{front_matter_md}{content}'
+    final_md = f'{front_matter_md}\n\n{content}'
 
     # set output file path
-    date = front_matter['date'].split(' ')[0]  # 2024-09-21 00:00:00 +0900 -> 2024-09-21
-    post_uid = front_matter['uid']
+    date = front_matter.date.split(' ')[0]  # 2024-09-21 00:00:00 +0900 -> 2024-09-21
+    post_uid = front_matter.uid
     output_filepath = f'{date}-{post_uid}.md'
 
     md = MDInfo(filepath=output_filepath, content=final_md)
@@ -46,7 +46,7 @@ def processing_markdown(input_md_fp: str) -> MDInfo:
     return md
 
 
-def transform_front_matter(input_md_fp) -> (dict, str):
+def transform_front_matter(input_md_fp) -> (FrontMatter, str):
     with open(input_md_fp, 'r') as f:
         md = f.read()
     # delete 1 row title
@@ -95,27 +95,13 @@ def transform_front_matter(input_md_fp) -> (dict, str):
     # apply date format (2024년 9월 21일 오전 12:00 (GMT+9) -> 2024-09-21 00:00:00 +0900)
     front_matter['date'] = convert_date_format(front_matter['date'])
 
-    # convert title to "title" (제목에 기호가 들어가면 오류 발생)
-    front_matter['title'] = f"\"{front_matter['title']}\""
-
     # convert A, B, C -> [A, B, C]
     front_matter['categories'] = front_matter['categories'].split(', ')
     front_matter['tags'] = front_matter['tags'].split(', ')
 
-    return front_matter, content
+    front_matter_obj = FrontMatter(**front_matter)
 
-
-def _dict_to_md(front_matter: dict) -> str:
-    """
-    Convert dictionary front matter to markdown format with ---
-    """
-    md = '---\n'
-    for k, v in front_matter.items():
-        if isinstance(v, list):
-            v = f"[{', '.join(v)}]"
-        md += f'{k}: {v}\n'
-    md += '---\n\n'
-    return md
+    return front_matter_obj, content
 
 
 if __name__ == '__main__':
