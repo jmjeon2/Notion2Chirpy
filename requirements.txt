@@ -4,3 +4,6 @@ notion-client
 pyyaml
 easydict
 notion
+git+https://github.com/jamalex/notion-py.git
+pillow
+pydantic
