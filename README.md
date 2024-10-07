@@ -61,7 +61,7 @@ NOTION:
 
 ![notion_db](./resources/notion_db.png)
 
-### 1. Docker 방식(Recommended)
+### 1. Docker 방식(예정)
 
 - 도커에 익숙한 경우, 아래 명령어로 도커 이미지를 빌드/실행하여 사용할 수 있다.
 
