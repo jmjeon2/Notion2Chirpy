@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from easydict import EasyDict
 import traceback
@@ -10,7 +11,8 @@ from src.replace_image import replace_image_urls_v2
 from src.transform_markdown import processing_markdown
 from src.utils import read_yaml, delete_file
 
-logger = get_logger(logger_name='notion2md')
+today = datetime.today().strftime('%Y-%m-%d')
+logger = get_logger(log_file=f'{today}.log', logger_name='notion2md')
 
 
 def save_md_file(save_fp, content):
@@ -82,9 +84,9 @@ def main(config: EasyDict):
     logger.info('All process done!')
 
     if failed_pages:
-        logger.error(f'Total failed pages: {len(failed_pages)}')
+        logger.info(f'Total failed pages: {len(failed_pages)}')
         for i, page in enumerate(failed_pages, start=1):
-            logger.error(f'[{i}] Failed page: {page}')
+            logger.info(f'[{i}] Failed page: {page}')
 
 
 if __name__ == '__main__':
