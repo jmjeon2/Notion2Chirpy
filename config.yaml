@@ -1,0 +1,29 @@
+GITHUB_PAGES:
+  URL: https://<USERNAME>.github.io
+  POST_PATH: PATH/TO/<USERNAME>.github.io/_posts
+
+IMGUR:
+  CLIENT_ID: <IMGUR_CLIENT_ID>
+
+NOTION:
+  DATABASE_ID: <NOTION_DATABASE_ID>
+  API_KEY: <NOTION_API_KEY>
+  TOKEN_V2: <NOTION_TOKEN_V2>
+
+  ############ DO NOT CHANGE BELOW ############
+  DOWNLOAD_PATH: ~/.notion2md
+  MAX_PAGE_SIZE: 10
+
+  COLUMN:
+    MAIN:
+      NAME: name
+    STATUS:
+      NAME: status
+      POSTING: 발행 요청
+      POSTED: 발행 완료
+    URL:
+      NAME: url
+    UID:
+      NAME: uid
+  #############################################
+
