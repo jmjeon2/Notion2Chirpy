@@ -162,3 +162,5 @@ cython_debug/
 
 sample
 .idea
+test
+config_private.yaml
