@@ -124,4 +124,5 @@ git push
 - [x] author 안보임 -> author를 front matter에서 삭제로 해결
 - [x] TOC의 첫번째 헤더 인식이 안 됨 -> Default로 H2~H3까지만 인식하도록 되어 있음
 - [x] 실제 이미지가 파일업로드가 아닌 다른 url 링크로 되어있는 경우 에러 발생함
+- [x] log 파일이 날짜 이름으로 생성되지 않는 문제
 - [ ] table 형식이 깨짐 (value 내에 줄바꿈이 있는 경우)

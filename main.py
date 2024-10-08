@@ -2,17 +2,18 @@ from datetime import datetime
 from pathlib import Path
 from easydict import EasyDict
 import traceback
-
 from src.loggers import get_logger
+
+# set loggers
+today = datetime.today().strftime('%Y-%m-%d')
+logger = get_logger(log_file=f'{today}.log', logger_name='notion2md')
+
 from src.models import PageInfo
 from src.notion_sdk.notion_download import export_notion_data, get_posting_pages
 from src.notion_sdk.update_notion_db import update_notion_db
 from src.replace_image import replace_image_urls_v2
 from src.transform_markdown import processing_markdown
 from src.utils import read_yaml, delete_file
-
-today = datetime.today().strftime('%Y-%m-%d')
-logger = get_logger(log_file=f'{today}.log', logger_name='notion2md')
 
 
 def save_md_file(save_fp, content):
