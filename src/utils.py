@@ -20,6 +20,22 @@ def read_yaml(file_path) -> EasyDict:
     return data
 
 
+def get_config():
+    """
+    config 파일을 읽어서 반환 (private config 파일이 있는 경우 private config 파일을 우선적으로 읽음)
+    """
+
+    private_config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config_private.yaml')
+    public_config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.yaml')
+
+    if os.path.exists(private_config_path):
+        config = read_yaml(private_config_path)
+    else:
+        config = read_yaml(public_config_path)
+
+    return config
+
+
 def expanduser(path):
     """경로에 ~가 붙으면 expanduser 처리"""
     if path.startswith('~'):

@@ -2,7 +2,6 @@ from easydict import EasyDict
 
 from src.models import PageInfo
 from src.notion_sdk.notion_api import NotionAPI
-from src.utils import read_yaml
 
 
 def update_notion_db(config: EasyDict, page: PageInfo):
@@ -20,5 +19,7 @@ def update_notion_db(config: EasyDict, page: PageInfo):
 
 
 if __name__ == '__main__':
-    config = read_yaml('../../config.yaml')
+    from src.utils import get_config
+
+    config = get_config()
     update_notion_db(config, PageInfo(name='test', id='test'))

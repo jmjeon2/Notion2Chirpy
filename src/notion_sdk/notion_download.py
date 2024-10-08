@@ -5,7 +5,7 @@ from easydict import EasyDict
 from src.models import PageInfo
 from src.notion_sdk.notion_api import NotionAPI
 from src.notion_sdk.notion_exporter import NotionBackUpClient
-from src.utils import read_yaml, unzip_all, find_md_file, expanduser
+from src.utils import unzip_all, find_md_file, expanduser
 
 from src.loggers import get_logger
 
@@ -65,10 +65,3 @@ def export_notion_data(config: EasyDict, page: PageInfo) -> str:
 
     logger.info(f'Exported {page.name} markdown file: {md_file_path}')
     return md_file_path
-
-
-if __name__ == '__main__':
-    # get config
-    config = read_yaml('./config.yaml')
-
-    export_notion_data(config)

@@ -135,10 +135,12 @@ class NotionAPI:
 
 
 if __name__ == '__main__':
-    NOTION_TOKEN = 'secret_fwhbiVhmFePiiIMX94tWs9IkMgK3NHPy6lk9v5KMDd7'
-    DB_ID = '4fd549c6e1a940a787ea5c123cf4222d'  # notion database 페이지에서 링크 복사 후 id만 붙여넣기
+    from src.utils import get_config
 
-    client = NotionAPI(api_key=NOTION_TOKEN)  # notion api 사이트에서 발급받기
+    # get config
+    config = get_config()
+
+    client = NotionAPI(api_key=config.NOTION.API_KEY)  # notion api 사이트에서 발급받기
 
     # filter는 document 참고: https://developers.notion.com/reference/post-database-query-filter
     filters = {
@@ -148,7 +150,9 @@ if __name__ == '__main__':
         }
     }
 
-    pages = client.get_pages(database_id=DB_ID, filters=filters, page_size=10)
+    pages = client.get_pages(database_id=config.NOTION.DATABASE_ID,
+                             filters=filters,
+                             page_size=10)
     pprint(pages)
     pages_id = client.parse_id_by_pages(pages)
     print(pages_id)

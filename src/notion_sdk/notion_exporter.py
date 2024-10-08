@@ -105,9 +105,9 @@ class NotionBackUpClient:
 
 
 if __name__ == '__main__':
-    from src.utils import read_yaml
+    from src.utils import get_config
 
-    config = read_yaml('../../config.yaml')
+    config = get_config()
 
     # export & download
     ne = NotionBackUpClient(token=config.NOTION_API_TOKEN_V2, download_path='~/.n2t')
