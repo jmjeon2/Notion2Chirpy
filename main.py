@@ -13,7 +13,7 @@ from src.notion_sdk.notion_download import export_notion_data, get_posting_pages
 from src.notion_sdk.update_notion_db import update_notion_db
 from src.replace_image import replace_image_urls_v2
 from src.transform_markdown import processing_markdown
-from src.utils import read_yaml, delete_file
+from src.utils import delete_file, get_config
 
 
 def save_md_file(save_fp, content):
@@ -91,5 +91,5 @@ def main(config: EasyDict):
 
 
 if __name__ == '__main__':
-    config = read_yaml('./config.yaml')
+    config = get_config()
     main(config)
