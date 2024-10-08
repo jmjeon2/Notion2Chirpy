@@ -59,7 +59,7 @@ def transform_front_matter(input_md_fp) -> (FrontMatter, str):
 
     # parsing front matter (key: value)
     front_matter = front_matter.split('\n')
-    front_matter = [x.split(': ') for x in front_matter]
+    front_matter = [x.split(': ', maxsplit=1) for x in front_matter]
     front_matter = dict(front_matter)
 
     # merge category
