@@ -4,3 +4,5 @@ services:
     volumes:
       - ./.notion2md:/app/.notion2md
       - ./logs:/app/logs
+    environment:
+      TZ: Asia/Seoul
