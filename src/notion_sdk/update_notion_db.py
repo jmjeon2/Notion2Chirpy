@@ -7,11 +7,6 @@ from src.notion_sdk.notion_api import NotionAPI
 def update_notion_db(config: EasyDict, page: PageInfo):
     client = NotionAPI(api_key=config.NOTION.API_KEY)  # notion api 사이트에서 발급받기
 
-    # update url column
-    col_url = config.NOTION.COLUMN.URL.NAME
-    gh_url = config.GITHUB_PAGES.URL
-    client.update(page_id=page.id, properties={col_url: {"url": f"{gh_url}/posts/{page.uid}"}})
-
     # update status column
     col_status = config.NOTION.COLUMN.STATUS.NAME
     val_posted = config.NOTION.COLUMN.STATUS.POSTED
