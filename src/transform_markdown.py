@@ -33,6 +33,10 @@ def processing_markdown(input_md_fp: str) -> MDInfo:
     # replace http to https
     content = content.replace('http://', 'https://')
 
+    # add watermark
+    water_mark = 'Uploaded by [N2C](https://github.com/jmjeon2/Notion2Chirpy)'
+    content = f'{content}\n\n{water_mark}'
+
     # add content below front matter
     final_md = f'{front_matter_md}\n\n{content}'
 
