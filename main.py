@@ -3,6 +3,7 @@ from pathlib import Path
 from easydict import EasyDict
 import traceback
 from src.loggers import get_logger
+from src.upload_github import upload_or_update_file_to_github
 
 # set loggers
 today = datetime.today().strftime('%Y-%m-%d')
@@ -42,6 +43,26 @@ def process(page: PageInfo) -> bool:
         save_fp = Path(config.NOTION.POST_SAVE_DIR) / md.filename
         save_md_file(save_fp, content)
         logger.info(f'Saved markdown file in {save_fp}. page name: {page.name}')
+
+        # auto commit & push
+        if config.GITHUB.AUTO_COMMIT:
+            upload_or_update_file_to_github(config.GITHUB.USERNAME,
+                                            config.GITHUB.REPO_NAME,
+                                            config.GITHUB.BRANCH,
+                                            config.GITHUB.TOKEN,
+                                            save_fp)
+            logger.info(f'Auto commit & push done. page name: {page.name}')
+
+        # move to local repo _post directory
+        else:
+            new_save_dir = Path(config.GITHUB.LOCAL_REPO_POST_DIR)
+            if new_save_dir.exists():
+                new_save_path = new_save_dir / md.filename
+                save_fp.rename(new_save_path)
+                logger.info(f'Moved markdown file from {save_fp} to {new_save_path}. page name: {page.name}')
+            else:
+                logger.error(f'Local repo post directory not exists. Local repo post directory: {new_save_dir}')
+
         return True
 
     except Exception as e:
