@@ -23,7 +23,9 @@ def save_md_file(save_fp, content):
 
 def process(page: PageInfo) -> bool:
     # export notion data
-    md_path = export_notion_data(config, page)
+    md_path = export_notion_data(config.NOTION.TOKEN_V2,
+                                 config.NOTION.DOWNLOAD_DIR,
+                                 page)
     logger.info(f'Exported notion data in {md_path}. page name: {page.name}')
 
     try:

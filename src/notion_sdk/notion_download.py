@@ -43,25 +43,25 @@ def get_posting_pages(config: EasyDict) -> [PageInfo]:
     return pages
 
 
-def export_notion_data(config: EasyDict, page: PageInfo) -> str:
+def export_notion_data(notion_token_v2: str, download_dir: str, page: PageInfo) -> str:
     # get notion exporter client
-    notion_exporter = NotionBackUpClient(config.NOTION.TOKEN_V2,
-                                         download_path=config.NOTION.DOWNLOAD_PATH)
+    notion_exporter = NotionBackUpClient(notion_token_v2,
+                                         download_path=download_dir)
 
     # check if there are files in download path
-    exist_file_list = os.listdir(expanduser(config.NOTION.DOWNLOAD_PATH))
+    exist_file_list = os.listdir(expanduser(download_dir))
     if '.DS_Store' in exist_file_list:
         exist_file_list.remove('.DS_Store')
     if len(exist_file_list) > 0:
-        logger.warning(f'Files already exist in {config.NOTION.DOWNLOAD_PATH}. Please remove them before exporting')
-        raise ValueError(f'Files already exist in {config.NOTION.DOWNLOAD_PATH}. Please remove them before exporting')
+        logger.warning(f'Files already exist in {download_dir}. Please remove them before exporting')
+        raise ValueError(f'Files already exist in {download_dir}. Please remove them before exporting')
 
     # export notion data
     notion_exporter.export(page_id=page.id, exportType='markdown')
 
     # unzip exported data and remove
-    unzip_all(config.NOTION.DOWNLOAD_PATH, remove_zip=True)
-    md_file_path = find_md_file(config.NOTION.DOWNLOAD_PATH, extension='md')
+    unzip_all(download_dir, remove_zip=True)
+    md_file_path = find_md_file(download_dir, extension='md')
 
     logger.info(f'Exported {page.name} markdown file: {md_file_path}')
     return md_file_path
