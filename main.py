@@ -3,12 +3,12 @@ from pathlib import Path
 from easydict import EasyDict
 import traceback
 from src.loggers import get_logger
-from src.upload_github import upload_or_update_file_to_github
 
-# set loggers
+# set loggers (it should be set before importing other modules using logger)
 today = datetime.today().strftime('%Y-%m-%d')
 logger = get_logger(log_file=f'{today}.log', logger_name='notion2md')
 
+from src.upload_github import upload_or_update_file_to_github
 from src.models import PageInfo
 from src.notion_sdk.notion_download import export_notion_data, get_posting_pages
 from src.notion_sdk.update_notion_db import update_notion_db
@@ -55,6 +55,12 @@ def process(page: PageInfo) -> bool:
 
         # move to local repo _post directory
         else:
+            if config.GITHUB.LOCAL_REPO_POST_DIR is None:
+                logger.warning('Local repo post directory not set. Check the config.yaml file')
+                logger.warning(f'Check the directories that files are saved {config.NOTION.POST_SAVE_DIR}')
+                logger.warning(f'Commit and Push the markdown files to your github repository manually')
+                return True
+
             new_save_dir = Path(config.GITHUB.LOCAL_REPO_POST_DIR)
             if new_save_dir.exists():
                 new_save_path = new_save_dir / md.filename
@@ -63,6 +69,7 @@ def process(page: PageInfo) -> bool:
             else:
                 logger.error(f'Local repo post directory not exists. Local repo post directory: {new_save_dir}')
                 logger.error(f'Check the directories that files are saved {config.NOTION.POST_SAVE_DIR}')
+                return False
 
         return True
 
