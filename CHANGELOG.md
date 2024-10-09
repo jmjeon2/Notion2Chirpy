@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.2.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.1.0...v0.2.0) (2024-10-09)
+
+
+### Features
+
+* config 가져오는 함수 추가 ([bcda9f7](https://github.com/jmjeon2/Notion2Chirpy/commit/bcda9f75afe1c9324393ff9dab7dc150b3e7cd9f))
+* config 가져오는 함수 추가 ([f256dc0](https://github.com/jmjeon2/Notion2Chirpy/commit/f256dc0be6ba5bf106b804d459e1d5c0fa018308))
+* config 파일 추가 ([f00a83b](https://github.com/jmjeon2/Notion2Chirpy/commit/f00a83bfeb6c7dfbce17a97b7bb711d373556815))
+* github api로 파일 업로드 기능 추가 ([8abcef8](https://github.com/jmjeon2/Notion2Chirpy/commit/8abcef8a98d9b574aa61e9c6e6b275773d0038aa))
+
+
+### Bug Fixes
+
+* log 저장 파일명 수정 ([d28c464](https://github.com/jmjeon2/Notion2Chirpy/commit/d28c4643a1e6a17db15dd6cf3fe0a58da1d7263c))
+* 제목에 ':'가 들어가는 경우 버그 수정 ([a5dcbf0](https://github.com/jmjeon2/Notion2Chirpy/commit/a5dcbf007de07fd207e35de4982641e1c2d1d16e))
+
+
+### Documentation
+
+* .gitignore 수정 ([cccc1c2](https://github.com/jmjeon2/Notion2Chirpy/commit/cccc1c20a99351a293eae78a9a65dbf92624edf8))
+* README.md 수정 ([944485b](https://github.com/jmjeon2/Notion2Chirpy/commit/944485b90148394264ac21f978ea3e79651d86cf))
+
 ## 0.1.0 (2024-10-07)
 
 
