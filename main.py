@@ -62,6 +62,7 @@ def process(page: PageInfo) -> bool:
                 logger.info(f'Moved markdown file from {save_fp} to {new_save_path}. page name: {page.name}')
             else:
                 logger.error(f'Local repo post directory not exists. Local repo post directory: {new_save_dir}')
+                logger.error(f'Check the directories that files are saved {config.NOTION.POST_SAVE_DIR}')
 
         return True
 
