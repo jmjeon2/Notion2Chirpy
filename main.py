@@ -29,7 +29,7 @@ def process(page: PageInfo) -> bool:
     try:
         # transform markdown to chirpy format
         md = processing_markdown(md_path)
-        logger.info(f'Transform markdown file in {md.filepath}, page name: {page.name}')
+        logger.info(f'Transform markdown file in {md.filename}, page name: {page.name}')
 
         # transform image url
         md_parent_path = Path(md_path).parent
@@ -37,7 +37,7 @@ def process(page: PageInfo) -> bool:
         logger.info(f'Image Processed(IMGUR). page name: {page.name}')
 
         # save md file
-        save_fp = Path(config.GITHUB_PAGES.POST_PATH) / md.filepath
+        save_fp = Path(config.NOTION.POST_SAVE_DIR) / md.filename
         save_md_file(save_fp, content)
         logger.info(f'Saved markdown file in {save_fp}. page name: {page.name}')
         return True

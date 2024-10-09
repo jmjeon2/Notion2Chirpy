@@ -39,9 +39,9 @@ def processing_markdown(input_md_fp: str) -> MDInfo:
     # set output file path
     date = front_matter.date.split(' ')[0]  # 2024-09-21 00:00:00 +0900 -> 2024-09-21
     post_uid = front_matter.uid
-    output_filepath = f'{date}-{post_uid}.md'
+    output_filename = f'{date}-{post_uid}.md'
 
-    md = MDInfo(filepath=output_filepath, content=final_md)
+    md = MDInfo(filename=output_filename, content=final_md)
 
     return md
 

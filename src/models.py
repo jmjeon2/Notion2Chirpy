@@ -11,8 +11,8 @@ class PageInfo(BaseModel):
 
 
 class MDInfo(BaseModel):
-    filepath: str
-    content: str
+    filename: str  # YYYY-MM-DD-UID.md
+    content: str  # markdown content
 
 
 class FrontMatter(BaseModel):
