@@ -89,7 +89,8 @@ def main(config: EasyDict):
     # get posting pages
     pages = get_posting_pages(config)
 
-    failed_pages = []
+    failed_pages: [PageInfo] = []
+    succeed_pages: [PageInfo] = []
 
     # export notion data (markdown)
     for i, page in enumerate(pages, start=1):
@@ -101,8 +102,9 @@ def main(config: EasyDict):
             if succeed:
                 update_notion_db(config, page)
                 logger.info(f'Updated notion db. page name: {page.name}')
+                succeed_pages.append(page)
             else:
-                failed_pages.append(page.name)
+                failed_pages.append(page)
 
         except Exception as e:
             logger.error(f'Error occurred in {page.name}')
@@ -115,10 +117,16 @@ def main(config: EasyDict):
 
     logger.info('All process done!')
 
+    if succeed_pages:
+        logger.info(f'Total succeed pages: {len(succeed_pages)}')
+        for i, page in enumerate(succeed_pages, start=1):
+            url = f'https://{config.GITHUB.REPO_NAME}/posts/{page.uid}'
+            logger.info(f'[{i}] Succeed page: {page.name}, url: {url}')
+
     if failed_pages:
         logger.info(f'Total failed pages: {len(failed_pages)}')
         for i, page in enumerate(failed_pages, start=1):
-            logger.info(f'[{i}] Failed page: {page}')
+            logger.info(f'[{i}] Failed page: {page.name}')
 
 
 if __name__ == '__main__':
