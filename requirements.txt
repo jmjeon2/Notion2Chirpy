@@ -7,3 +7,4 @@ notion
 git+https://github.com/jamalex/notion-py.git
 pillow
 pydantic
+slack_sdk

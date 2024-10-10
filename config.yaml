@@ -29,8 +29,17 @@ NOTION:
       NAME: name
     STATUS:
       NAME: status
-      POSTING: 발행 준비
+      POSTING: 발행 요청
       POSTED: 발행 완료
     UID:
       NAME: uid
   #################################
+
+####### OPTIONAL #######
+ALARM:
+  SLACK:
+    TOKEN: # <YOUR_SLACK_TOKEN>
+    CHANNEL: # <YOUR_SLACK_CHANNEL> # e.g. '#general'
+  GMAIL:
+    EMAIL: # <YOUR_EMAIL>
+    PASSWORD: # <YOUR_APP_PASSWORD> # gmail app password (16 digits)

@@ -8,6 +8,8 @@ from src.loggers import get_logger
 today = datetime.today().strftime('%Y-%m-%d')
 logger = get_logger(log_file=f'{today}.log', logger_name='notion2md')
 
+from src.alerts.send_gmail import GmailSender
+from src.alerts.send_slack import SlackBot
 from src.upload_github import upload_or_update_file_to_github
 from src.models import PageInfo
 from src.notion_sdk.notion_download import export_notion_data, get_posting_pages
@@ -115,18 +117,37 @@ def main(config: EasyDict):
 
         logger.info(f'Processed {page.name}')
 
-    logger.info('All process done!')
-
+    msg = f'Total pages: {len(pages)}\n'
     if succeed_pages:
-        logger.info(f'Total succeed pages: {len(succeed_pages)}')
+        msg += f'Total succeed pages: {len(succeed_pages)}\n'
         for i, page in enumerate(succeed_pages, start=1):
-            url = f'https://{config.GITHUB.REPO_NAME}/posts/{page.uid}'
-            logger.info(f'[{i}] Succeed page: {page.name}, url: {url}')
+            url = f'https://{config.GITHUB.REPO_NAME}/posts/{page.uid}/'
+            msg += f'[{i}] Succeed page: {page.name}, url: {url}\n'
+        logger.info(msg)
 
     if failed_pages:
-        logger.info(f'Total failed pages: {len(failed_pages)}')
+        msg += f'Total failed pages: {len(failed_pages)}\n'
         for i, page in enumerate(failed_pages, start=1):
-            logger.info(f'[{i}] Failed page: {page.name}')
+            msg += f'[{i}] Failed page: {page.name}\n'
+        logger.info(msg)
+
+    # send message to slack
+    if config.ALARM.SLACK.TOKEN:
+        slack_bot = SlackBot(token=config.ALARM.SLACK.TOKEN,
+                             channel_name=config.ALARM.SLACK.CHANNEL)
+        slack_bot.send_message(msg)
+    logger.info('Send message to slack')
+
+    # send email to gmail
+    if config.ALARM.GMAIL.EMAIL:
+        gmail_sender = GmailSender(email=config.ALARM.GMAIL.EMAIL,
+                                   password=config.ALARM.GMAIL.PASSWORD)
+        gmail_sender.send_email(to_emails=[config.ALARM.GMAIL.EMAIL],
+                                subject=f'[Notion2Chirpy] Process Result Notification ({len(succeed_pages)}/{len(pages)} SUCCESS)',
+                                body=msg)
+    logger.info('Send email to gmail')
+
+    logger.info('All process done!')
 
 
 if __name__ == '__main__':
