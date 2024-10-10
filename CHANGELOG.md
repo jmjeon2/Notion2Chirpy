@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.3.0...v0.4.0) (2024-10-10)
+
+
+### Features
+
+* gmail, slack 알람 기능 추가 ([0d369d4](https://github.com/jmjeon2/Notion2Chirpy/commit/0d369d4db04c33254e1425383df4431b24e45b09))
+
+
+### Documentation
+
+* README.md 업데이트 ([0785725](https://github.com/jmjeon2/Notion2Chirpy/commit/0785725c3838a13cc79f8de3457b15d8b86ac891))
+
 ## [0.3.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.2.0...v0.3.0) (2024-10-10)
 
 
