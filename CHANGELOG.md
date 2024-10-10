@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.3.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.2.0...v0.3.0) (2024-10-10)
+
+
+### Features
+
+* config 구조 변경 ([e033f7f](https://github.com/jmjeon2/Notion2Chirpy/commit/e033f7f12ba6b620b1d31b0863ae429269eb1014))
+* docker(compose) 파일 추가 ([2cef2f8](https://github.com/jmjeon2/Notion2Chirpy/commit/2cef2f861ddc4f7278d531d9cd4872c142c4c3dc))
+* watermark 추가 ([e78c357](https://github.com/jmjeon2/Notion2Chirpy/commit/e78c3572f5d3683a05c139703c6b9c47d5946846))
+* 성공 페이지 log추가(url 포함) ([2a0d930](https://github.com/jmjeon2/Notion2Chirpy/commit/2a0d930715e8244226b25aa7eff40e3fac704379))
+* 커밋 메시지에 uid 추가 ([c2e5593](https://github.com/jmjeon2/Notion2Chirpy/commit/c2e55936f96399ce8e11b43a470726dcdad2a590))
+
+
+### Bug Fixes
+
+* docker 컨테이너 timezone 설정(seoul) ([b41769f](https://github.com/jmjeon2/Notion2Chirpy/commit/b41769faa5c05361fda53471daf0935c861c75eb))
+* import module 위치 수정(logger 이슈) ([876fef6](https://github.com/jmjeon2/Notion2Chirpy/commit/876fef6c09b8ab4661cf84f129f9cd2f0c203427))
+* 코드 전체 volume mount 추가 ([0fa010c](https://github.com/jmjeon2/Notion2Chirpy/commit/0fa010cf94d7fb1025b5cd6decd96c33f0f29f5f))
+
 ## [0.2.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.1.0...v0.2.0) (2024-10-09)
 
 
