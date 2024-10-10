@@ -21,6 +21,9 @@ def upload_or_update_file_to_github(username: str,
     md_base_path = os.path.basename(file_path)
     github_file_path = os.path.join('_posts', md_base_path)  # GitHub 저장소 내 업로드할 파일 경로
 
+    # parse uid from file_path (YYYY-MM-DD-UID.md)
+    uid = md_base_path.replace('.md', '').split('-')[-1]
+
     # GitHub API 엔드포인트
     url = f"https://api.github.com/repos/{username}/{repo_name}/contents/{github_file_path}"
 
@@ -56,7 +59,7 @@ def upload_or_update_file_to_github(username: str,
 
     # 업로드 또는 수정할 데이터 설정
     data = {
-        "message": f"{'update' if file_sha else 'add'} post" if commit_message is None else commit_message,
+        "message": f"{'update' if file_sha else 'add'} post: {uid}" if commit_message is None else commit_message,
         "content": content,
         "branch": branch_name
     }
