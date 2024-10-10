@@ -2,7 +2,6 @@ services:
   notion2chirpy:
     build: .
     volumes:
-      - ./.notion2md:/app/.notion2md
-      - ./logs:/app/logs
+      - .:/app
     environment:
       TZ: Asia/Seoul
