@@ -53,5 +53,5 @@ if __name__ == '__main__':
     """
 
     # 변환 후 결과 출력
-    transformed = transform_markdown(md_example)
+    transformed = transform_callout(md_example)
     print(transformed)
