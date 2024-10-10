@@ -1,17 +1,27 @@
-GITHUB_PAGES:
-  URL: https://<USERNAME>.github.io
-  POST_PATH: PATH/TO/<USERNAME>.github.io/_posts
+GITHUB:
+  AUTO_COMMIT: True # True or False
+
+  USERNAME: <YOUR_USERNAME>
+  REPO_NAME: <YOUR_REPO_NAME>
+
+  # below is used for auto commit is True
+  BRANCH: <YOUR_BRANCH_NAME> # e.g. main
+  TOKEN: <YOUR_GITHUB_TOKEN>
+
+  # below is used for auto commit is False (optional)
+  LOCAL_REPO_POST_DIR: # e.g. PATH/TO/YOUR/REPO/_posts
 
 IMGUR:
-  CLIENT_ID: <IMGUR_CLIENT_ID>
+  CLIENT_ID: <YOUR_CLIENT_ID>
 
 NOTION:
-  DATABASE_ID: <NOTION_DATABASE_ID>
-  API_KEY: <NOTION_API_KEY>
-  TOKEN_V2: <NOTION_TOKEN_V2>
+  DATABASE_ID: <YOUR_DATABASE_ID>
+  API_KEY: <YOUR_API_KEY>
+  TOKEN_V2: <YOUR_TOKEN_V2>
 
-  ############ DO NOT CHANGE BELOW ############
-  DOWNLOAD_PATH: ~/.notion2md
+  ###### DO NOT CHANGE BELOW ######
+  DOWNLOAD_DIR: ./.notion2md/_downloads
+  POST_SAVE_DIR: ./.notion2md/_posts
   MAX_PAGE_SIZE: 10
 
   COLUMN:
@@ -19,11 +29,8 @@ NOTION:
       NAME: name
     STATUS:
       NAME: status
-      POSTING: 발행 요청
+      POSTING: 발행 준비
       POSTED: 발행 완료
-    URL:
-      NAME: url
     UID:
       NAME: uid
-  #############################################
-
+  #################################
