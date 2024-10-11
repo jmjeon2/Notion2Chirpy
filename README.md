@@ -106,6 +106,7 @@ git push
 - [x] github api로 commit&push(upload) 대체
 - [x] 성공 페이지 URL 링크를 log에 추가 (바로 접근 가능하도록)
 - [x] slack이나 email로 알람 기능 추가
+- [x] callout으로 emoji에 따라 다양한 prompt 지원(tip, warning, info, danger 등)
 - [ ] 발행 완료된 페이지가 실제로 배포 되었는지 여부 확인
 - [ ] 게시물 수정시 기존 imgur 이미지 url 활용하기
 - [ ] notion db의 컬럼과 md 파일의 front matter sync 맞추기
