@@ -122,13 +122,13 @@ def main(config: EasyDict):
         msg += f'Total succeed pages: {len(succeed_pages)}\n'
         for i, page in enumerate(succeed_pages, start=1):
             url = f'https://{config.GITHUB.REPO_NAME}/posts/{page.uid}/'
-            msg += f'[{i}] Succeed page: {page.name}, url: {url}\n'
+            msg += f'\t[{i}] Succeed page: {page.name}, url: {url}\n'
         logger.info(msg)
 
     if failed_pages:
         msg += f'Total failed pages: {len(failed_pages)}\n'
         for i, page in enumerate(failed_pages, start=1):
-            msg += f'[{i}] Failed page: {page.name}\n'
+            msg += f'\t[{i}] Failed page: {page.name}\n'
         logger.info(msg)
 
     # send message to slack
