@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.4.0...v0.5.0) (2024-10-16)
+
+
+### Features
+
+* callout 이모지에 따른 prompt 기능 추가 ([82e7a4b](https://github.com/jmjeon2/Notion2Chirpy/commit/82e7a4b5e47516e89581dc722e2dd9726d01fb07))
+
+
+### Documentation
+
+* README.md 업데이트 ([1725bcd](https://github.com/jmjeon2/Notion2Chirpy/commit/1725bcdd2fb312414b15c77a5af8bdbb3357db98))
+
 ## [0.4.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.3.0...v0.4.0) (2024-10-10)
 
 
