@@ -65,7 +65,7 @@ def replace_image_urls_v2(markdown_text: str, data_dir: str, imgur_client_id: st
 
     output_lines = []
     for line in markdown_text.split('\n'):
-        if line.strip().startswith('!['):
+        if '![' in line:
             line = process_image_line(line, data_dir, imgur_client_id)
             time.sleep(UPLOAD_DELAY)
         output_lines.append(line)
