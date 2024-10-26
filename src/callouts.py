@@ -5,7 +5,7 @@ from enum import Enum
 class CallOutEmoji(Enum):
     TIP = ["💡"]  # all the other emojis
     INFO = ["📌", "🔍", "📝", "📢", "📚", "📖"]
-    WARNING = ["⚠️", "⚡", "🚧", "🟠" "🟧"]
+    WARNING = ["⚠", "⚠️", "⚡", "🚧", "🟠", "🟧"]
     DANGER = ["🔥", "🚨", "🚫", "❌", "🛑", "⛔"]
 
 
@@ -25,6 +25,18 @@ def set_prompt_type(emoji):
         return PromptType.DANGER.value
     else:
         return PromptType.TIP.value
+
+
+def remove_breaks(content: str) -> str:
+    """ 시작과 끝에 \n이 있는경우 반복적으로 제거 """
+    if content.startswith('️\n\n'): # "⚠️"의 경우 시작에 \n\n가 붙어있음 (strip으로 삭제 안됨, \n앞에 보이지 않는 공백이 있음)
+        content = content.removeprefix('️\n\n')
+
+    while content.startswith('\n'):
+        content = content[1:]
+    while content.endswith('\n'):
+        content = content[:-1]
+    return content
 
 
 def transform_callout(md_text):
@@ -54,6 +66,9 @@ def transform_callout(md_text):
         emoji = match.group(1)
         content = match.group(2).strip()
 
+        # content의 줄바꿈을 처리
+        content = remove_breaks(content)
+
         # prompt 설정
         prompt = set_prompt_type(emoji)
 
@@ -74,71 +89,33 @@ if __name__ == '__main__':
     # 예시 마크다운 텍스트
     md_example = """
 <aside>
-✅
-
-This is a tip on the first line.
-This is a tip on the second line.
-aosdihf
-
-adosifh
-aosdihf
-
-asoigdhlkhadsfioh
-aosdihg
-
-asdoifh
-
-</aside>
-
-hello world
-# thisis a test
-
-<aside>
-
-Another tip with multiple lines.
-More information here.
-
-</aside>
-    """
-
-    md_example = """
-
-<aside>
 💡
 
-제목 엔터침
-
-줄글1 엔터침
-
-줄글2 엔터
+An example showing the `tip` type prompt.
 
 </aside>
 
 <aside>
-🔥
+📌
 
-제목 
-엔터 안침
-엔터 안침
-
-- helloworld
-
-### aosdihf
-
-- 이 안에 내용
-- 이 안에 수식
-- 인라인 수식 $E=mc^2$
-- 그냥 수식
-
-$$
-E=mc^2
-$$
-
-후후..
+An example showing the `info` type prompt.
 
 </aside>
 
-    """
+<aside>
+⚠️
+
+An example showing the `warning` type prompt.
+
+</aside>
+
+<aside>
+🚨
+
+An example showing the `danger` type prompt.
+
+</aside>
+"""
 
     # 변환 후 결과 출력
     transformed = transform_callout(md_example)
