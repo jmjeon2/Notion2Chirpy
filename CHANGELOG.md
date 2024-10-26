@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.4.0...v0.5.0) (2024-10-26)
+
+
+### Features
+
+* callout 이모지에 따른 prompt 기능 추가 ([82e7a4b](https://github.com/jmjeon2/Notion2Chirpy/commit/82e7a4b5e47516e89581dc722e2dd9726d01fb07))
+
+
+### Bug Fixes
+
+* image 블럭이 다른 블럭 내에 있는 경우 인식 불가 문제 수정 ([3449b8a](https://github.com/jmjeon2/Notion2Chirpy/commit/3449b8abb360ee8bac73bb14b2934abdd93d24b9))
+* 모든 emoji callout 반영 ([1eee716](https://github.com/jmjeon2/Notion2Chirpy/commit/1eee716a2da7d6e5ba3a6693dec9fce3cca3483d))
+* 특정 emoji에 공백이 추가되는 버그 수정 ([7419bc9](https://github.com/jmjeon2/Notion2Chirpy/commit/7419bc9238e696530873987c7a5ec8f43b22f679))
+
+
+### Documentation
+
+* README.md 업데이트 ([1725bcd](https://github.com/jmjeon2/Notion2Chirpy/commit/1725bcdd2fb312414b15c77a5af8bdbb3357db98))
+
 ## [0.4.0](https://github.com/jmjeon2/Notion2Chirpy/compare/v0.3.0...v0.4.0) (2024-10-10)
 
 
