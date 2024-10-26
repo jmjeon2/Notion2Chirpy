@@ -33,7 +33,22 @@ def transform_callout(md_text):
         따라서 <aside> 태그를 찾아서 이모지를 제거하고 chirpy의 prompt-tip으로 출력하도록 변환
     """
     # 패턴: <aside> ... 이모지 ... </aside> 를 찾음
-    pattern = re.compile(r"<aside>\s*([\U0001F000-\U0001FFFF])\s*(.*?)\s*</aside>", re.DOTALL)
+    pattern = re.compile(
+        r"<aside>\s*(["
+        "\U0001F000-\U0001FFFF"  # 이모지, 기호 등 유니코드 확장 영역
+        "\U0001F600-\U0001F64F"  # 얼굴 이모지
+        "\U0001F300-\U0001F5FF"  # 상징 및 객체
+        "\U0001F680-\U0001F6FF"  # 교통 및 기계
+        "\U0001F700-\U0001F77F"  # 기호 및 도형
+        "\U0001F780-\U0001F7FF"  # 추가 기호
+        "\U0001F800-\U0001F8FF"  # 확장된 이모지
+        "\U0001F900-\U0001F9FF"  # 이모지 확장
+        "\U0001FA00-\U0001FAFF"  # 새로운 객체 및 활동
+        "\u2600-\u26FF"  # 기타 기호
+        "\u2700-\u27BF"  # 추가 기호 및 체크 표시
+        "])\s*(.*?)\s*</aside>",
+        re.DOTALL
+    )
 
     def replace_newlines(match):
         emoji = match.group(1)
@@ -59,7 +74,7 @@ if __name__ == '__main__':
     # 예시 마크다운 텍스트
     md_example = """
 <aside>
-💡
+✅
 
 This is a tip on the first line.
 This is a tip on the second line.
